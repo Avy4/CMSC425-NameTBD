@@ -8,6 +8,8 @@ public class Phantom : MonoBehaviour
     private Vector3[] phantomPositions;
     private Vector3 currentDestination;
     private int currentIdx;
+    const float captureInterval = 1.5f;
+    private float currentCaptureTimer;
 
     void Start()
     {
@@ -25,7 +27,7 @@ public class Phantom : MonoBehaviour
 
         phantomBody.MovePosition(newPos);
 
-        if (ClosenessCheck())
+        if (ClosenessCheck() && TimeCheck())
         {
             if (currentIdx + 1 < phantomPositions.Length)
             {
@@ -50,10 +52,24 @@ public class Phantom : MonoBehaviour
         return false;
     }
 
+    bool TimeCheck()
+    {
+        currentCaptureTimer -= Time.deltaTime;
+        if (currentCaptureTimer <= 0)
+        {
+            currentCaptureTimer = captureInterval;
+            return true;
+        }
+
+        return false;
+    }
+
     void RestartPath()
     {
         currentIdx = 0;
         phantomBody.transform.position = phantomPositions[currentIdx++];
         currentDestination = phantomPositions[currentIdx];
+
+        currentCaptureTimer = captureInterval;
     }
 }   
