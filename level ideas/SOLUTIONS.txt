@@ -1,0 +1,30 @@
+excuse the horrible sketchwork lol
+
+tutorial
+the goal is on an elevated platform the player cannot reach without jumping. Use 1 clone to form a platform that the player can jump on to then jump up to the goal. This should teach the player to use the clone. (maybe there will be a feature to make it so that the player can sit down or lay down or something, something to manipulate the character model to better fit the task). The idea is that the clone is used as terrain to get to the end.
+
+
+tutorial2
+there is a hole that the player will use a clone to lie down over and then in the 2nd iteration, the player can walk on top of the clone to get to the end. The gap should not be traversable by just jumping. The idea is that the clone is used as terrain to get to the end.
+lowkey could fuse tutorial 1 and 2 into the same level and just allow more clones.
+
+
+switchesIntroduction
+can use levers or buttons. Room A is unlocked, upon entering the player can interact with a pressure plate/lever that unlocks gate B but locks them inside room A. Iteration 2 sees the first clone entering room A and unlocking gate B, after which the player can go inside room B and do the same thing with the plate/lever, unlocking the goal but locking them inside Room B. Final player iteration waits for clones 1 and 2 to activate the switches to then go to the goal. The idea is that the clones are "disposed" of in order to activate the next step in the level.
+
+
+patternMatchingKnights
+3 statues of knight guys on either side, 3 noticeably missing slots/pedastals, and a sword, shield, and spear on the ground. Player uses 3 clones to pick up the sword, shield, and spear respectively, and then stands across from the knight holding the same thing. Once all 3 clones are in place, the 4th iteration can go to the unlocked goal. All the clones are needed to solve the puzzle where the knights need to match.
+
+
+thelion
+There are 3 rooms and a lion in each one. Initially the player can choose to go in any room, and they will get mauled by a lion. The solution is that they will go to the same room again and the lion will maul the clone, leaving the player free to pass, but this is unintuitive, as the player will most likely choose another door, knowing that there is a lion in that room, only to be met with another lion no matter which gate they go to. The idea is that the player will try all 3 gates before realizing that they need to make use of their clones as bait for the lion to get to the gate.
+
+
+
+
+
+
+
+
+ 
