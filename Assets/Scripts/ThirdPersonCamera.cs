@@ -1,18 +1,18 @@
-using Unity.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
-
 public class ThirdPersonCamera : MonoBehaviour
 {
-    // Dependendencies
+    [Header("Dependencies")]
     [SerializeField] Transform orientation;
     [SerializeField] Transform player;
     [SerializeField] Transform playerModel;
+
+    [Header("Editables")]
     [SerializeField] float rotationSpeed = 7f;
 
-    InputActionMap actionMap;
-    InputAction moveAction;
+    // Movement Input
+    private InputActionMap actionMap;
+    private InputAction moveAction;
 
     private void Start()
     {
@@ -24,6 +24,9 @@ public class ThirdPersonCamera : MonoBehaviour
     {   
         // "this" refers to this Cameras position
         Vector3 cameraDir = player.position - new Vector3(this.transform.position.x, player.position.y, this.transform.position.z);
+
+        // Changes the forward direction to the direction that the camera is facing.
+        // Its based of this direction that you move left or right. 
         orientation.forward = cameraDir.normalized;
 
         RotateCam();
@@ -31,12 +34,14 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private void RotateCam()
     {   
+        // Reads in value, the direction of movement is your input in the y (which is the z) and the x added together
+        // The direction of movement is relative to the orientation we are in
         Vector2 movementInput = moveAction.ReadValue<Vector2>();
-        Debug.Log(movementInput);
         Vector3 movementDir = orientation.forward * movementInput.y + orientation.right * movementInput.x;
 
         if (movementDir != Vector3.zero)
-        {
+        {   
+            // Rotate the model to match the direction of movement
             playerModel.forward = Vector3.Slerp(playerModel.forward, movementDir.normalized, Time.deltaTime * rotationSpeed);
         }
     }
