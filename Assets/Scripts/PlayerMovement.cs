@@ -73,7 +73,13 @@ public class PlayerMovement : MonoBehaviour
 
     void CheckGrounded()
     {
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.5f, groundLayer);
+        Debug.DrawRay(
+    transform.position,
+    Vector3.down * 1.3f,
+    Color.red
+);
+
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.3f);
         if (isGrounded)
         {
             rb.linearDamping = groundDrag;
@@ -99,6 +105,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
+        Debug.Log("isGrounded = " + isGrounded);
         if (isGrounded)
         {
             isGrounded = false;
