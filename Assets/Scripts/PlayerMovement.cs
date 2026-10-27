@@ -73,13 +73,15 @@ public class PlayerMovement : MonoBehaviour
 
     void CheckGrounded()
     {
-        Debug.DrawRay(
-    transform.position,
-    Vector3.down * 1.3f,
-    Color.red
-);
+        /*
+         I was having trouble with the jumping mechanic not registering that it landed, therefore I removed the "groundLayer" parameter in the
+         isGrounded assignment and added a DrawRay to visually see when it can legally jump again.
 
+            - Ryan N.
+         */
+        Debug.DrawRay( transform.position, Vector3.down * 1.3f, Color.red); // Added by Ryan N.
         isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.3f);
+
         if (isGrounded)
         {
             rb.linearDamping = groundDrag;
