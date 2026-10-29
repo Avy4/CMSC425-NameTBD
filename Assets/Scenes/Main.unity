@@ -549,6 +549,10 @@ PrefabInstance:
       propertyPath: jumpHeight
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 1768129276434757372, guid: dae26ae79185ddc4c909305d2046c843, type: 3}
+      propertyPath: airSpeedMultiplier
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 4583054518211264798, guid: dae26ae79185ddc4c909305d2046c843, type: 3}
       propertyPath: m_Name
       value: Character Parent

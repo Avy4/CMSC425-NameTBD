@@ -39,12 +39,12 @@ public class PlayerMovement : MonoBehaviour
     {   
         ReadInput();
         CheckGrounded();
-        ClampSpeed();
     }
 
     void FixedUpdate()
     {
         MovePlayer();
+        ClampSpeed();
     }
 
     void MovePlayer()
@@ -79,6 +79,7 @@ public class PlayerMovement : MonoBehaviour
 
             - Ryan N.
          */
+        
         Debug.DrawRay( transform.position, Vector3.down * 1.3f, Color.red); // Added by Ryan N.
         isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.3f);
 
@@ -95,16 +96,17 @@ public class PlayerMovement : MonoBehaviour
 
     void ClampSpeed()
     {
-        Vector3 xzVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+        Vector3 vel = rb.linearVelocity;
+        Vector3 velocityXZ = new Vector3(vel.x, 0, vel.z);
 
-        if (xzVelocity.magnitude > moveSpeed)
-        {
-            // Retain the direcion while reducing its magnitude to 1, then multiply by the movement speed
-            Vector3 clampedVelocity = xzVelocity.normalized * moveSpeed;
-            rb.linearVelocity = clampedVelocity;
+        if (velocityXZ.magnitude > moveSpeed)
+        {   
+            // retrain the direction and scale it by the movespeed
+            Vector3 limited = velocityXZ.normalized * moveSpeed;
+            rb.linearVelocity = new Vector3(limited.x, vel.y, limited.z);
         }
     }
-
+        
     void Jump()
     {
         Debug.Log("isGrounded = " + isGrounded);

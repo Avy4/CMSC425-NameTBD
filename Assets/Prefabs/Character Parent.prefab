@@ -76,6 +76,7 @@ GameObject:
   - component: {fileID: 3361971333526125887}
   - component: {fileID: 4916202478029629515}
   - component: {fileID: 2623143351081263180}
+  - component: {fileID: 6271546647102620112}
   - component: {fileID: 4981925544122015755}
   - component: {fileID: 5560723214372484237}
   m_Layer: 0
@@ -93,7 +94,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1638249462266417247}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.13870123, y: -0.000000005011504, z: 7.0188605e-10, w: 0.99033433}
+  m_LocalRotation: {x: 0.29050556, y: -9.550082e-11, z: 2.980973e-11, w: 0.9568733}
   m_LocalPosition: {x: 0, y: 2, z: -7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -235,6 +236,45 @@ MonoBehaviour:
     Time: 0
     Smoothing: 0
     IgnoreY: 0
+--- !u!114 &6271546647102620112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638249462266417247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbe43d662878a7c43bcd44d43c9e2094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineDeoccluder
+  CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 1
+  IgnoreTag: Player
+  TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  MinimumDistanceFromTarget: 1
+  AvoidObstacles:
+    Enabled: 1
+    DistanceLimit: 0
+    MinimumOcclusionTime: 0
+    CameraRadius: 0.4
+    UseFollowTarget:
+      Enabled: 0
+      YOffset: 0
+    Strategy: 0
+    MaximumEffort: 4
+    SmoothingTime: 0
+    Damping: 0.4
+    DampingWhenOccluded: 0.2
+  ShotQualityEvaluation:
+    Enabled: 0
+    OptimalDistance: 10
+    NearLimit: 5
+    FarLimit: 30
+    MaxQualityBoost: 0.2
 --- !u!114 &4981925544122015755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -575,7 +615,7 @@ Rigidbody:
   serializedVersion: 5
   m_Mass: 1
   m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_AngularDamping: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -589,9 +629,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 112
-  m_CollisionDetection: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!114 &1768129276434757372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -608,7 +648,7 @@ MonoBehaviour:
   rb: {fileID: 1034194929764112372}
   moveSpeed: 15
   groundDrag: 5
-  airSpeed: 5
+  airSpeedMultiplier: 0.4
   jumpHeight: 5
   groundLayer:
     serializedVersion: 2
