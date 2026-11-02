@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,11 +9,11 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Editables")]
     // Take what you think the speed should be and multiply it by like 3.
-    [SerializeField] float moveSpeed = 7f;
-    [SerializeField] float groundDrag = 5f;
+    [SerializeField] float groundMoveSpeed = 7f;
     // Take what you think the airspeed should be and multiply it by like 3.
-    [SerializeField] float airSpeedMultiplier = .4f;
+    [SerializeField] float airMoveSpeed = 7f;
     [SerializeField] float jumpHeight = 5f;
+    [SerializeField] float gravity = -9.81f;
     
     [Header("Grounded")]
     private bool isGrounded;
@@ -26,13 +25,14 @@ public class PlayerMovement : MonoBehaviour
     private InputAction jumpAction;
     private Vector2 movementInput;
 
-
     void Start()
     {
         rb.freezeRotation = true;
         actionMap = InputSystem.actions.FindActionMap("Player");
         moveAction = actionMap.FindAction("Move");
         jumpAction = actionMap.FindAction("Jump");
+
+        Physics.gravity = new Vector3(0, gravity, 0);
     }
 
     void Update()
@@ -53,11 +53,11 @@ public class PlayerMovement : MonoBehaviour
         
         if (isGrounded)
         {
-            rb.AddForce(movementDir.normalized * moveSpeed, ForceMode.Force);  
+            rb.AddForce(movementDir.normalized * groundMoveSpeed, ForceMode.Force);  
         }
         else if (!isGrounded)
         {
-            rb.AddForce(movementDir.normalized * moveSpeed * airSpeedMultiplier, ForceMode.Force); 
+            rb.AddForce(movementDir.normalized * airMoveSpeed, ForceMode.Force); 
         }
     }
 
@@ -80,18 +80,10 @@ public class PlayerMovement : MonoBehaviour
             - Ryan N.
          */
         
-        Debug.DrawRay( transform.position, Vector3.down * 1.3f, Color.red); // Added by Ryan N.
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.3f);
+        Debug.DrawRay(transform.position, Vector3.down * 1.3f, Color.red); // Added by Ryan N.
 
-        if (isGrounded)
-        {
-            rb.linearDamping = groundDrag;
-        }
-        else
-        {   
-            // Having drag while jumping doesn't feel good
-            rb.linearDamping = 0;
-        }
+        // Add back ground layer check if needed
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.3f);
     }
 
     void ClampSpeed()
@@ -99,17 +91,16 @@ public class PlayerMovement : MonoBehaviour
         Vector3 vel = rb.linearVelocity;
         Vector3 velocityXZ = new Vector3(vel.x, 0, vel.z);
 
-        if (velocityXZ.magnitude > moveSpeed)
+        if (velocityXZ.magnitude > groundMoveSpeed)
         {   
             // retrain the direction and scale it by the movespeed
-            Vector3 limited = velocityXZ.normalized * moveSpeed;
+            Vector3 limited = velocityXZ.normalized * groundMoveSpeed;
             rb.linearVelocity = new Vector3(limited.x, vel.y, limited.z);
         }
     }
         
     void Jump()
     {
-        Debug.Log("isGrounded = " + isGrounded);
         if (isGrounded)
         {
             isGrounded = false;

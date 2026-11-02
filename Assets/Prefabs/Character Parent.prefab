@@ -94,8 +94,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1638249462266417247}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.29050556, y: -9.550082e-11, z: 2.980973e-11, w: 0.9568733}
-  m_LocalPosition: {x: 0, y: 2, z: -7}
+  m_LocalRotation: {x: 0.2856476, y: -0.1776596, z: 0.05397722, w: 0.940175}
+  m_LocalPosition: {x: 2.5519776, y: 2.021682, z: -6.5114207}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -178,7 +178,7 @@ MonoBehaviour:
     SplineCurvature: 0.1
   RecenteringTarget: 2
   HorizontalAxis:
-    Value: 0
+    Value: -21.401371
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -188,7 +188,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: 17.5
+    Value: 17.646338
     Center: 17.5
     Range: {x: -10, y: 45}
     Wrap: 0
@@ -354,7 +354,6 @@ GameObject:
   - component: {fileID: 396563109225551965}
   - component: {fileID: 3137690908313726595}
   - component: {fileID: 5152415462232722701}
-  - component: {fileID: 30640255296572062}
   m_Layer: 0
   m_Name: eyeL
   m_TagString: Untagged
@@ -434,27 +433,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &30640255296572062
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1659742722300802111}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2427634244738766565
 GameObject:
   m_ObjectHideFlags: 0
@@ -554,7 +532,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2427634244738766565}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: fa2ee49040552e6488abacd5c955468e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -646,10 +624,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   orientation: {fileID: 9130826918885544142}
   rb: {fileID: 1034194929764112372}
-  moveSpeed: 15
-  groundDrag: 5
-  airSpeedMultiplier: 0.4
+  groundMoveSpeed: 7
+  airMoveSpeed: 7
   jumpHeight: 5
+  gravity: -9.81
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -697,7 +675,6 @@ GameObject:
   - component: {fileID: 4234499965678981877}
   - component: {fileID: 131902639381251501}
   - component: {fileID: 5232416385382924710}
-  - component: {fileID: 8843226953704335896}
   m_Layer: 0
   m_Name: eyeR
   m_TagString: Untagged
@@ -777,24 +754,3 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &8843226953704335896
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5519264925844260903}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
