@@ -1,48 +1,104 @@
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Test : MonoBehaviour
 {
+    [SerializeField] Transform orientation;
+    [SerializeField] Rigidbody rb;
+
+    #region Physics Variables
+    public float moveSpeed = 7f;
+    public float jumpForce = 6f;
+    #endregion
+    #region Actions
     private InputActionMap actionMap;
     private InputAction moveAction;
     private InputAction jumpAction;
-
-    [SerializeField] Transform orientation;
-    [SerializeField] Rigidbody rb;
-    // Jump Check
+    private Vector2 movementInput = Vector2.zero;
+    private bool triedToJump = false;
+    #endregion
+    #region GroundCheck
     [SerializeField] LayerMask groundLayer;
-    bool isGrounded = true;
-    float radius = .5f;
-    float maxDistance = 0f;
+    private float radius = .4f;
+    private float maxDistance = .2f;
+    private Vector3 anchorModifier = new Vector3(0, .5f, 0); 
+    private bool isGrounded = true;
+    #endregion
 
-    Vector2 movementInput;
-    bool isJumping = false;
-
-    [SerializeField] float gravity = -9.81f;
-
-    void Update()
+    void Start()
     {
-        ReadInput();
+        // Removes the jitteriness from the RigidBody
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+
+        // Freeze rotation so the player doesnt fall over
+        rb.constraints = RigidbodyConstraints.FreezeRotation; 
+
+        actionMap = InputSystem.actions.FindActionMap("Player");
+        moveAction = actionMap.FindAction("Move");
+        jumpAction = actionMap.FindAction("Jump");
+
+        moveAction.performed += ReadMovementInput;
+        moveAction.canceled += ResetMovementInput;
+
+        jumpAction.performed += ReadJumpInput;
+        jumpAction.canceled += ResetJumpInput;       
     }
 
-    void ReadInput()
+    void FixedUpdate()
     {
-        movementInput = moveAction.ReadValue<Vector2>();
-        
-        if (isGrounded && jumpAction.ReadValue<bool>())
-        {
-        }
+        GroundCheck();
+        Move();
+        Jump();
     }
 
     void GroundCheck()
     {
-        isGrounded = Physics.SphereCast(transform.position - new Vector3(0, 1, 0), radius, Vector3.down, out _, maxDistance, groundLayer.value);
+        // Raycasts a Sphere down from position - anchorModifier. If it hits the groundLayer you are grounded.
+        isGrounded = Physics.SphereCast(transform.position - anchorModifier, radius, Vector3.down, out _, maxDistance, groundLayer.value);
+    }
+    
+    void Move()
+    {   
+        // Direction
+        Vector3 movementDir = (orientation.forward * movementInput.y + orientation.right * movementInput.x).normalized;
+
+        // Direction * moveSpeed (keeps the current y velocity)
+        Vector3 velocity = new Vector3(movementDir.x * moveSpeed, rb.linearVelocity.y, movementDir.z * moveSpeed);
+
+        // Sets velocity
+        rb.linearVelocity = velocity;
     }
 
-    void MovePlayer()
+    void Jump()
+    {   
+        if (triedToJump && isGrounded)
+        {
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        }
+    }
+
+    #region Input 
+    void ReadMovementInput(InputAction.CallbackContext context)
     {
-        Vector3 movementDir = orientation.forward * movementInput.y + orientation.right * movementInput.x;
+        movementInput = moveAction.ReadValue<Vector2>();
     }
 
+    void ResetMovementInput(InputAction.CallbackContext context)
+    {
+        movementInput = new Vector3(0, rb.linearVelocity.y, 0);
+    }
+
+    void ReadJumpInput(InputAction.CallbackContext context)
+    {
+        Debug.Log("tried to jump");
+        triedToJump = true;
+    }
+
+    void ResetJumpInput(InputAction.CallbackContext context)
+    {
+        Debug.Log("let go of jump");
+        triedToJump = false;
+    }
+    #endregion
 }
