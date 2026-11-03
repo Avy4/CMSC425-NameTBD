@@ -47,8 +47,8 @@ public class Test : MonoBehaviour
     void FixedUpdate()
     {
         GroundCheck();
-        Move();
         Jump();
+        Move();
     }
 
     void GroundCheck()
@@ -86,7 +86,7 @@ public class Test : MonoBehaviour
 
     void ResetMovementInput(InputAction.CallbackContext context)
     {
-        movementInput = new Vector3(0, rb.linearVelocity.y, 0);
+        movementInput = Vector2.zero;
     }
 
     void ReadJumpInput(InputAction.CallbackContext context)
@@ -97,8 +97,8 @@ public class Test : MonoBehaviour
 
     void ResetJumpInput(InputAction.CallbackContext context)
     {
-        Debug.Log("let go of jump");
         triedToJump = false;
+
     }
     #endregion
 }
