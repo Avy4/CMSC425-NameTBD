@@ -3,109 +3,104 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Dependencies")]
     [SerializeField] Transform orientation;
     [SerializeField] Rigidbody rb;
 
-    [Header("Editables")]
-    // Take what you think the speed should be and multiply it by like 3.
-    [SerializeField] float groundMoveSpeed = 7f;
-    // Take what you think the airspeed should be and multiply it by like 3.
-    [SerializeField] float airMoveSpeed = 7f;
-    [SerializeField] float jumpHeight = 5f;
-    [SerializeField] float gravity = -9.81f;
+    #region Physics Variables
+    public float moveSpeed = 7f;
+    public float jumpForce = 6f;
+    #endregion
     
-    [Header("Grounded")]
-    private bool isGrounded;
-    [SerializeField] LayerMask groundLayer;
-
-    // Movement Input
+    #region Actions
     private InputActionMap actionMap;
     private InputAction moveAction;
     private InputAction jumpAction;
-    private Vector2 movementInput;
+    private Vector2 movementInput = Vector2.zero;
+    private bool triedToJump = false;
+    #endregion
+    
+    #region GroundCheck
+    [SerializeField] LayerMask groundLayer;
+    private float radius = .4f;
+    private float maxDistance = .2f;
+    private Vector3 anchorModifier = new Vector3(0, .5f, 0); 
+    private bool isGrounded = true;
+    #endregion
 
     void Start()
     {
-        rb.freezeRotation = true;
+        // Removes the jitteriness from the RigidBody
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+
+        // Freeze rotation so the player doesnt fall over
+        rb.constraints = RigidbodyConstraints.FreezeRotation; 
+
         actionMap = InputSystem.actions.FindActionMap("Player");
         moveAction = actionMap.FindAction("Move");
         jumpAction = actionMap.FindAction("Jump");
 
-        Physics.gravity = new Vector3(0, gravity, 0);
-    }
+        moveAction.performed += ReadMovementInput;
+        moveAction.canceled += ResetMovementInput;
 
-    void Update()
-    {   
-        ReadInput();
-        CheckGrounded();
+        jumpAction.performed += ReadJumpInput;
+        jumpAction.canceled += ResetJumpInput;       
     }
 
     void FixedUpdate()
     {
-        MovePlayer();
-        ClampSpeed();
+        GroundCheck();
+        Jump();
+        Move();
     }
 
-    void MovePlayer()
+    void GroundCheck()
     {
-        Vector3 movementDir = orientation.forward * movementInput.y + orientation.right * movementInput.x;
-        
-        if (isGrounded)
+        // Raycasts a Sphere down from position - anchorModifier. If it hits the groundLayer you are grounded.
+        isGrounded = Physics.SphereCast(transform.position - anchorModifier, radius, Vector3.down, out _, maxDistance, groundLayer.value);
+    }
+    
+    void Move()
+    {   
+        // Direction
+        Vector3 movementDir = (orientation.forward * movementInput.y + orientation.right * movementInput.x).normalized;
+
+        // Direction * moveSpeed (keeps the current y velocity)
+        Vector3 velocity = new Vector3(movementDir.x * moveSpeed, rb.linearVelocity.y, movementDir.z * moveSpeed);
+
+        // Sets velocity
+        rb.linearVelocity = velocity;
+    }
+
+    void Jump()
+    {   
+        if (triedToJump && isGrounded)
         {
-            rb.AddForce(movementDir.normalized * groundMoveSpeed, ForceMode.Force);  
-        }
-        else if (!isGrounded)
-        {
-            rb.AddForce(movementDir.normalized * airMoveSpeed, ForceMode.Force); 
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
         }
     }
 
-    void ReadInput()
+    #region Input 
+    void ReadMovementInput(InputAction.CallbackContext context)
     {
         movementInput = moveAction.ReadValue<Vector2>();
-
-        if (jumpAction.WasPressedThisFrame())
-        {   
-            Jump();
-        }
     }
 
-    void CheckGrounded()
+    void ResetMovementInput(InputAction.CallbackContext context)
     {
-        /*
-         I was having trouble with the jumping mechanic not registering that it landed, therefore I removed the "groundLayer" parameter in the
-         isGrounded assignment and added a DrawRay to visually see when it can legally jump again.
-
-            - Ryan N.
-         */
-        
-        Debug.DrawRay(transform.position, Vector3.down * 1.3f, Color.red); // Added by Ryan N.
-
-        // Add back ground layer check if needed
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.3f);
+        movementInput = Vector2.zero;
     }
 
-    void ClampSpeed()
+    void ReadJumpInput(InputAction.CallbackContext context)
     {
-        Vector3 vel = rb.linearVelocity;
-        Vector3 velocityXZ = new Vector3(vel.x, 0, vel.z);
+        Debug.Log("tried to jump");
+        triedToJump = true;
+    }
 
-        if (velocityXZ.magnitude > groundMoveSpeed)
-        {   
-            // retrain the direction and scale it by the movespeed
-            Vector3 limited = velocityXZ.normalized * groundMoveSpeed;
-            rb.linearVelocity = new Vector3(limited.x, vel.y, limited.z);
-        }
-    }
-        
-    void Jump()
+    void ResetJumpInput(InputAction.CallbackContext context)
     {
-        if (isGrounded)
-        {
-            isGrounded = false;
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
-            rb.AddForce(transform.up * jumpHeight, ForceMode.Impulse);
-        }
+        triedToJump = false;
+
     }
+    #endregion
 }

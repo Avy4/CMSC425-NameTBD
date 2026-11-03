@@ -15,7 +15,8 @@ public class ThirdPersonCamera : MonoBehaviour
     private InputAction moveAction;
 
     private void Start()
-    {
+    {   
+        Cursor.visible = false;
         actionMap = InputSystem.actions.FindActionMap("Player");
         moveAction = actionMap.FindAction("Move");
     }
