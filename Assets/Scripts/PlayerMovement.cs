@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 6f;
     #endregion
     
+    [SerializeField] Vector3 initialPosition;
+
     #region Actions
     private InputActionMap actionMap;
     private InputAction moveAction;
@@ -93,7 +95,6 @@ public class PlayerMovement : MonoBehaviour
 
     void ReadJumpInput(InputAction.CallbackContext context)
     {
-        Debug.Log("tried to jump");
         triedToJump = true;
     }
 
@@ -103,4 +104,13 @@ public class PlayerMovement : MonoBehaviour
 
     }
     #endregion
+
+    public void ResetPlayer()
+    {
+        movementInput = Vector2.zero;
+        rb.linearVelocity = Vector3.zero;
+        isGrounded = true;
+
+        rb.transform.position = initialPosition;
+    }
 }
