@@ -9,6 +9,8 @@ public class CapstandTurn : MonoBehaviour
     //serializeFeild to make these private variables changable and visible in the Inspector
     [SerializeField] private Transform rotatingAssembly; //to be assigned by us
     [SerializeField] private Transform door; //to be assigned by us
+
+
     [SerializeField, Min(0f)] private float rotationSpeed = 45f;
     [SerializeField, Min(1f)] private float rotationForFullOpen = 360f;
     [SerializeField, Min(0f)] private float doorOpenHeight = 7.5f;
@@ -21,6 +23,9 @@ public class CapstandTurn : MonoBehaviour
     private float lastInputTime;
     private bool hasReceivedInput;
     private bool isReturning;
+
+    private PlayerMovement input;
+
     private readonly Dictionary<int, int> playerRotationFrames = new Dictionary<int, int>();
 
     void Awake()
@@ -77,22 +82,22 @@ public class CapstandTurn : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        StarterAssets.StarterAssetsInputs playerInput =
-            other.GetComponentInParent<StarterAssets.StarterAssetsInputs>();
-
-        if (playerInput == null)
+        input = other.GetComponentInParent<PlayerMovement>();
+        
+        if (input == null)
         {
             return;
         }
 
+        Vector2 movementInput = input.movementInput;
         float inputAmount = Mathf.Max(
-            Mathf.Abs(playerInput.move.x), Mathf.Abs(playerInput.move.y));
+            Mathf.Abs(movementInput.x), Mathf.Abs(movementInput.y));
         if (inputAmount <= 0f)
         {
             return;
         }
 
-        int playerId = playerInput.gameObject.GetInstanceID();
+        int playerId = input.gameObject.GetInstanceID();
         if (playerRotationFrames.TryGetValue(playerId, out int lastFrame) &&
             lastFrame == Time.frameCount)
         {
