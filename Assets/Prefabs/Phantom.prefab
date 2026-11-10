@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 429559124609013622}
   - component: {fileID: 1684772259743847145}
   - component: {fileID: 7332780456677035891}
-  m_Layer: 6
+  - component: {fileID: 5671531305423497019}
+  m_Layer: 7
   m_Name: Phantom
-  m_TagString: Untagged
+  m_TagString: Phantom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f818e432e824ce4eae43442a81fc4ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Phantom
+  phantomSpeed: 3.5
 --- !u!120 &1684772259743847145
 LineRenderer:
   serializedVersion: 3
@@ -182,6 +184,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!136 &5671531305423497019
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3498405774258608991}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.85, z: 0}
 --- !u!1 &8928828614516140002
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,9 +219,10 @@ GameObject:
   - component: {fileID: 6558061100394719654}
   - component: {fileID: 1275981500441680720}
   - component: {fileID: 4993339472157245021}
-  m_Layer: 6
-  m_Name: Cube
-  m_TagString: Untagged
+  - component: {fileID: 1174054789626790137}
+  m_Layer: 7
+  m_Name: Collider
+  m_TagString: Phantom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -294,3 +320,15 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1174054789626790137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8928828614516140002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c2d56533939384a8fcc695f03caf60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PhantomDeath
