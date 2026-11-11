@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     private float radius = .4f;
     private float maxDistance = .2f;
     private Vector3 anchorModifier = new Vector3(0, .5f, 0); 
-    private bool isGrounded = true;
+    private bool isGrounded = true; 
     #endregion
 
     void Start()
@@ -114,3 +114,4 @@ public class PlayerMovement : MonoBehaviour
         rb.transform.position = initialPosition;
     }
 }
+
