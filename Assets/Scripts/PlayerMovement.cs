@@ -21,9 +21,14 @@ public class PlayerMovement : MonoBehaviour
     
     #region GroundCheck
     [SerializeField] LayerMask groundLayer;
-    private float radius = .4f;
-    private float maxDistance = .2f;
-    private Vector3 anchorModifier = new Vector3(0, .5f, 0); 
+    private float radius = .4f;              // Sphere cast radius
+    private float maxDistance = .2f;         // How far below the feet still counts as grounded
+    private const float skinWidth = 0.05f;   // Start the cast slightly above the contact point so it
+                                             // never begins already overlapping the floor (a SphereCast
+                                             // ignores colliders it starts inside, which would make the
+                                             // check silently fail)
+    private readonly RaycastHit[] groundHits = new RaycastHit[8]; // Reused buffer, no GC pressure
+    private bool warnedNoColliders;
     private bool isGrounded = true;
     #endregion
 
@@ -55,8 +60,56 @@ public class PlayerMovement : MonoBehaviour
 
     void GroundCheck()
     {
-        // Raycasts a Sphere down from position - anchorModifier. If it hits the groundLayer you are grounded.
-        isGrounded = Physics.SphereCast(transform.position - anchorModifier, radius, Vector3.down, out _, maxDistance, groundLayer.value);
+        Collider feetCollider = null;
+        float feetY = float.PositiveInfinity;
+
+        foreach (Collider col in rb.GetComponentsInChildren<Collider>(false))
+        {
+            if (!col.enabled || col.isTrigger) continue;                    // only solid colliders
+            if (col.attachedRigidbody != null && col.attachedRigidbody != rb) continue; // skip other bodies
+
+            if (col.bounds.min.y < feetY)
+            {
+                feetY = col.bounds.min.y;
+                feetCollider = col;
+            }
+        }
+
+        if (feetCollider == null)
+        {
+            // No solid collider on the player: physics cannot rest on anything,
+            // so report airborne and warn once so it is easy to spot.
+            isGrounded = false;
+            if (!warnedNoColliders)
+            {
+                warnedNoColliders = true;
+                Debug.LogWarning("PlayerMovement: no enabled, non-trigger Collider found on the player. Ground check will always return false.");
+            }
+            return;
+        }
+        
+        Vector3 origin = new Vector3(
+            feetCollider.bounds.center.x,
+            feetY + skinWidth + radius,
+            feetCollider.bounds.center.z);
+        float castDistance = skinWidth + maxDistance;
+
+        int hitCount = Physics.SphereCastNonAlloc(
+            origin, radius, Vector3.down, groundHits, castDistance,
+            groundLayer.value, QueryTriggerInteraction.Ignore);
+
+        isGrounded = false;
+        for (int i = 0; i < hitCount; i++)
+        {
+            Collider hitCollider = groundHits[i].collider;
+
+            if (hitCollider == null) continue;
+            if (hitCollider.transform.IsChildOf(transform)) continue;   // never ground on ourselves
+            if (groundHits[i].normal.y < 0.5f) continue;                // ignore walls, only walkable slopes
+
+            isGrounded = true;
+            break;
+        }
     }
     
     void Move()
@@ -102,5 +155,6 @@ public class PlayerMovement : MonoBehaviour
         triedToJump = false;
 
     }
+    public bool IsGrounded => isGrounded;
     #endregion
 }
