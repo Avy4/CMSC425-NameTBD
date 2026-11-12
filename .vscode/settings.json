@@ -67,5 +67,5 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "CMSC425.slnx"
+    "dotnet.defaultSolution": "CMSC425-NameTBD.slnx"
 }

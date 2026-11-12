@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 6f;
     #endregion
     
+    [SerializeField] Vector3 initialPosition;
+
     #region Actions
     private InputActionMap actionMap;
     private InputAction moveAction;
@@ -21,15 +23,12 @@ public class PlayerMovement : MonoBehaviour
     
     #region GroundCheck
     [SerializeField] LayerMask groundLayer;
-    private float radius = .4f;              // Sphere cast radius
-    private float maxDistance = .2f;         // How far below the feet still counts as grounded
-    private const float skinWidth = 0.05f;   // Start the cast slightly above the contact point so it
-                                             // never begins already overlapping the floor (a SphereCast
-                                             // ignores colliders it starts inside, which would make the
-                                             // check silently fail)
-    private readonly RaycastHit[] groundHits = new RaycastHit[8]; // Reused buffer, no GC pressure
-    private bool warnedNoColliders;
-    private bool isGrounded = true;
+    private float radius = .4f;
+    private float maxDistance = .2f;
+    private const float skinWidth = 0.05f;
+    private readonly RaycastHit[] groundHits = new RaycastHit[8];
+    private Vector3 anchorModifier = new Vector3(0, .5f, 0);  // ? what this for?
+    private bool isGrounded = true; 
     #endregion
 
     void Start()
@@ -73,19 +72,6 @@ public class PlayerMovement : MonoBehaviour
                 feetY = col.bounds.min.y;
                 feetCollider = col;
             }
-        }
-
-        if (feetCollider == null)
-        {
-            // No solid collider on the player: physics cannot rest on anything,
-            // so report airborne and warn once so it is easy to spot.
-            isGrounded = false;
-            if (!warnedNoColliders)
-            {
-                warnedNoColliders = true;
-                Debug.LogWarning("PlayerMovement: no enabled, non-trigger Collider found on the player. Ground check will always return false.");
-            }
-            return;
         }
         
         Vector3 origin = new Vector3(
@@ -146,7 +132,6 @@ public class PlayerMovement : MonoBehaviour
 
     void ReadJumpInput(InputAction.CallbackContext context)
     {
-        Debug.Log("tried to jump");
         triedToJump = true;
     }
 
@@ -157,4 +142,14 @@ public class PlayerMovement : MonoBehaviour
     }
     public bool IsGrounded => isGrounded;
     #endregion
+
+    public void ResetPlayer()
+    {
+        movementInput = Vector2.zero;
+        rb.linearVelocity = Vector3.zero;
+        isGrounded = true;
+
+        rb.transform.position = initialPosition;
+    }
 }
+
