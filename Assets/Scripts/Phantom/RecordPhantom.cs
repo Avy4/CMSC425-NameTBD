@@ -9,8 +9,10 @@ public class RecordPhantom : MonoBehaviour
     // The LineRenderer on the phantom contains the path that the phantom copied
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] PlayerDeath playerDeath;
+    [SerializeField] int maxPhantoms = 1;
 
     #region Capture Variables
+    private PhantomManager phantomManager;
     private const float captureInterval = .05f;
     private float currentCaptureInterval = 0;
     private bool shouldCapture = true;
@@ -31,8 +33,12 @@ public class RecordPhantom : MonoBehaviour
         actionMap = InputSystem.actions.FindActionMap("Player");
         stopRecordingAction = actionMap.FindAction("StopRecording");     
 
+        // Create Phantom Manager
+        phantomManager = new PhantomManager(maxPhantoms);
+
         // This is adding a callback method
         stopRecordingAction.performed += CreatePhantomCallback;
+        
     }
 
     void Update()
@@ -73,9 +79,9 @@ public class RecordPhantom : MonoBehaviour
 
         newPhantomLineRender.positionCount = lineRenderer.positionCount;
         newPhantomLineRender.SetPositions(tempArray);
-        
-        // Fresh Line Renderer
-        ResetLineRenderer();
+
+        phantomManager.AddPhantom(newPhantom);
+        phantomManager.ResetPhantoms();
     }
 
     // Creates a new captured position in the LineRenderer
@@ -86,7 +92,7 @@ public class RecordPhantom : MonoBehaviour
     }
 
     // Resets all the points in the line renderer
-    void ResetLineRenderer()
+    public void ResetLineRenderer()
     {
         lineRenderer.positionCount = 0;
         SetLineRenderPosition();

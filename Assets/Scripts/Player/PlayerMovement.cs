@@ -11,7 +11,6 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 6f;
     #endregion
 
-    // Initial Position that the player resets to when hitting Q or dying
     [SerializeField] Vector3 initialPosition;
 
     #region Actions
@@ -60,7 +59,9 @@ public class PlayerMovement : MonoBehaviour
     void GroundCheck()
     {
         // Raycasts a Sphere down from position - anchorModifier. If it hits the groundLayer or the phantomLayer you are grounded.
-        isGrounded = Physics.SphereCast(transform.position - anchorModifier, radius, Vector3.down, out _, maxDistance, (1 << groundLayer) | (1 << phantomLayer));
+        isGrounded = Physics.SphereCast(transform.position - anchorModifier, radius, Vector3.down, out _, maxDistance, groundLayer | phantomLayer);
+
+        Debug.Log(isGrounded);
     }
     
     void Move()

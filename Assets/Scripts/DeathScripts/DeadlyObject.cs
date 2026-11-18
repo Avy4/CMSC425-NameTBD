@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DeadyObject : MonoBehaviour
+public class DeadlyObject : MonoBehaviour
 {
     void OnTriggerEnter(Collider other)
     {

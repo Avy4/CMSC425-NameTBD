@@ -11,5 +11,9 @@ public class PlayerDeath : Death
     {   
         recordPhantom.CreatePhantom();
         playerMovement.ResetPlayer();
+
+        // Fresh Line Renderer
+        // We want to only reset the line renderer (and start reading position again after resetting pos)
+        recordPhantom.ResetLineRenderer();
     }
 }

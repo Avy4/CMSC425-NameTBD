@@ -22,7 +22,7 @@ public class PhantomMovement : MonoBehaviour
     private int currentPositionIdx;
     private Vector3 currentDestination;
     #endregion
-    
+
     void Start()
     {
         // Get Components
@@ -31,6 +31,7 @@ public class PhantomMovement : MonoBehaviour
 
         // Initialize line renderer with phantom positions in RecordPhantom
         phantomPositions = new Vector3[phantomLineRenderer.positionCount];
+
         phantomLineRenderer.GetPositions(phantomPositions);
         RestartPath();
     }
@@ -71,10 +72,11 @@ public class PhantomMovement : MonoBehaviour
     }
 
     // Restart is ONLY called when Q is hit or the player dies
-    void RestartPath()
+    public void RestartPath()
     {   
         // Idx, position restart
         currentPositionIdx = 0;
+
         phantomBody.transform.position = phantomPositions[currentPositionIdx];
 
         // Idx iterate, set new destination

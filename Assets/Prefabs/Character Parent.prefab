@@ -648,7 +648,7 @@ MonoBehaviour:
     m_Bits: 64
   phantomLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
 --- !u!1 &4583054518211264798
 GameObject:
   m_ObjectHideFlags: 0
@@ -786,15 +786,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2039159700226773481, guid: 1151acd758b4d5746898e6e123c697f9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.35355
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2039159700226773481, guid: 1151acd758b4d5746898e6e123c697f9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.05872
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2039159700226773481, guid: 1151acd758b4d5746898e6e123c697f9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.35355
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2039159700226773481, guid: 1151acd758b4d5746898e6e123c697f9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -823,6 +823,10 @@ PrefabInstance:
     - target: {fileID: 2039159700226773481, guid: 1151acd758b4d5746898e6e123c697f9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706937443970309102, guid: 1151acd758b4d5746898e6e123c697f9, type: 3}
+      propertyPath: maxPhantoms
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6706937443970309102, guid: 1151acd758b4d5746898e6e123c697f9, type: 3}
       propertyPath: playerDeath
