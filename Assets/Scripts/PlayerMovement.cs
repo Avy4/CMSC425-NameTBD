@@ -25,9 +25,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] LayerMask groundLayer;
     private float radius = .4f;
     private float maxDistance = .2f;
-    private const float skinWidth = 0.05f;
-    private readonly RaycastHit[] groundHits = new RaycastHit[8];
-    private Vector3 anchorModifier = new Vector3(0, .5f, 0);  // ? what this for?
+    private Vector3 anchorModifier = new Vector3(0, 0.5f, 0); 
     private bool isGrounded = true; 
     #endregion
 
@@ -59,44 +57,10 @@ public class PlayerMovement : MonoBehaviour
 
     void GroundCheck()
     {
-        Collider feetCollider = null;
-        float feetY = float.PositiveInfinity;
-
-        foreach (Collider col in rb.GetComponentsInChildren<Collider>(false))
-        {
-            if (!col.enabled || col.isTrigger) continue;                    // only solid colliders
-            if (col.attachedRigidbody != null && col.attachedRigidbody != rb) continue; // skip other bodies
-
-            if (col.bounds.min.y < feetY)
-            {
-                feetY = col.bounds.min.y;
-                feetCollider = col;
-            }
-        }
-        
-        Vector3 origin = new Vector3(
-            feetCollider.bounds.center.x,
-            feetY + skinWidth + radius,
-            feetCollider.bounds.center.z);
-        float castDistance = skinWidth + maxDistance;
-
-        int hitCount = Physics.SphereCastNonAlloc(
-            origin, radius, Vector3.down, groundHits, castDistance,
-            groundLayer.value, QueryTriggerInteraction.Ignore);
-
-        isGrounded = false;
-        for (int i = 0; i < hitCount; i++)
-        {
-            Collider hitCollider = groundHits[i].collider;
-
-            if (hitCollider == null) continue;
-            if (hitCollider.transform.IsChildOf(transform)) continue;   // never ground on ourselves
-            if (groundHits[i].normal.y < 0.5f) continue;                // ignore walls, only walkable slopes
-
-            isGrounded = true;
-            break;
-        }
+        // Raycasts a Sphere down from position - anchorModifier. If it hits the groundLayer you are grounded.
+        isGrounded = Physics.SphereCast(transform.position - anchorModifier, radius, Vector3.down, out _, maxDistance, groundLayer.value);
     }
+    public bool IsGrounded => isGrounded;
     
     void Move()
     {   
@@ -140,7 +104,6 @@ public class PlayerMovement : MonoBehaviour
         triedToJump = false;
 
     }
-    public bool IsGrounded => isGrounded;
     #endregion
 
     public void ResetPlayer()
@@ -152,4 +115,3 @@ public class PlayerMovement : MonoBehaviour
         rb.transform.position = initialPosition;
     }
 }
-

@@ -29,36 +29,15 @@ public class PlayerAnimator : MonoBehaviour
 
     void Start()
     {
-        // Self-heal lost references so the controller never silently stops working.
-        if (animator == null) animator = GetComponentInChildren<Animator>();
-        if (rb == null) rb = GetComponentInParent<Rigidbody>();
-        if (playerMovement == null) playerMovement = GetComponentInParent<PlayerMovement>();
-
-        if (animator == null)
-            Debug.LogError("PlayerAnimator: no Animator assigned/found. Animations will not play.");
-        if (rb == null)
-            Debug.LogError("PlayerAnimator: no Rigidbody assigned/found. Movement animation will not update.");
-        if (playerMovement == null)
-            Debug.LogError("PlayerAnimator: no PlayerMovement assigned/found. Grounded state will not update.");
-
         // Find the Player action map
         var defaultActions = InputSystem.actions;
-        if (defaultActions == null)
-        {
-            Debug.LogWarning("PlayerAnimator: no default InputActions asset is set (Project Settings > Input System). Prone input disabled.");
-            return;
-        }
 
         actionMap = defaultActions.FindActionMap("Player");
-        if (actionMap == null)
-        {
-            Debug.LogWarning("PlayerAnimator: 'Player' action map was not found. Prone input disabled.");
-            return;
-        }
 
         // Find the Prone action
         proneAction = actionMap.FindAction("Prone");
 
+        // prone isn't in movement controller, and the animation file got corrupted so shh
         if (proneAction != null)
         {
             proneAction.performed += ToggleProne;
@@ -71,9 +50,6 @@ public class PlayerAnimator : MonoBehaviour
 
     void Update()
     {
-        if (animator == null || rb == null)
-            return; // references missing - already reported in Start, avoid NRE spam
-
         UpdateMovementAnimation();
         UpdateAirAnimation();
         UpdateProneAnimation();
@@ -81,7 +57,6 @@ public class PlayerAnimator : MonoBehaviour
 
     void UpdateMovementAnimation()
     {
-        // Get horizontal velocity (ignore vertical movement)
         Vector3 horizontalVelocity = new Vector3(
             rb.linearVelocity.x,
             0f,
@@ -90,7 +65,6 @@ public class PlayerAnimator : MonoBehaviour
 
         float speed = horizontalVelocity.magnitude;
 
-        // Update walking animation speed
         animator.SetFloat(speedHash, speed, animationDampTime, Time.deltaTime);
     }
 
@@ -99,10 +73,8 @@ public class PlayerAnimator : MonoBehaviour
         if (playerMovement == null)
             return;
 
-        // Grounded state from PlayerMovement
         bool grounded = playerMovement.IsGrounded;
 
-        // Current vertical velocity
         float verticalVelocity = rb.linearVelocity.y;
 
         animator.SetBool(groundedHash, grounded);
