@@ -29,6 +29,9 @@ public class PhantomMovement : MonoBehaviour
         phantomLineRenderer = GetComponent<LineRenderer>();
         phantomBody = GetComponent<Rigidbody>();
 
+        // Removes the jitteriness from the RigidBody
+        phantomBody.interpolation = RigidbodyInterpolation.Interpolate;
+
         // Initialize line renderer with phantom positions in RecordPhantom
         phantomPositions = new Vector3[phantomLineRenderer.positionCount];
 
