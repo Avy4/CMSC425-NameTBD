@@ -24,8 +24,8 @@ public class PlayerMovement : MonoBehaviour
     #region GroundCheck
     [SerializeField] LayerMask groundLayer;
     private float radius = .4f;
-    private float maxDistance = .2f;
-    private Vector3 anchorModifier = new Vector3(0, 0.5f, 0); 
+    private float maxDistance = 1f;
+    [SerializeField] Vector3 anchorModifier = new Vector3(0, 0f, 0); 
     private bool isGrounded = true; 
     #endregion
 
