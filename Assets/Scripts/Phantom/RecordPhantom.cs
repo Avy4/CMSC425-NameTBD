@@ -13,7 +13,7 @@ public class RecordPhantom : MonoBehaviour
 
     #region Capture Variables
     private PhantomManager phantomManager;
-    private const float captureInterval = .05f;
+    private const float captureInterval = 0.05f;
     private float currentCaptureInterval = 0;
     private bool shouldCapture = true;
     // Keeps the phantom body from going inside the ground
@@ -68,6 +68,12 @@ public class RecordPhantom : MonoBehaviour
     public void CreatePhantom()
     {
         shouldCapture = false;
+        
+        // Capture an extra position just in case
+        if (currentCaptureInterval <= captureInterval / 2)
+        {
+            SetLineRenderPosition();
+        }
 
         // Instantiates a new Phantom
         GameObject newPhantom = Instantiate(phantom);

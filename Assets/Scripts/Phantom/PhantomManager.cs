@@ -30,7 +30,9 @@ public class PhantomManager
             if (phantom != lastAdded)
             {
                 phantom.GetComponent<PhantomMovement>().RestartPath();
-                phantom.SetActive(true);      
+                
+                // The Phantom GameObject only has one child which is the "Collider" GameObject that we SetActive(false)
+                phantom.transform.GetChild(0).gameObject.SetActive(true);      
             }
         }
     }

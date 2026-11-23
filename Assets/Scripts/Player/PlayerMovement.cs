@@ -60,8 +60,6 @@ public class PlayerMovement : MonoBehaviour
     {
         // Raycasts a Sphere down from position - anchorModifier. If it hits the groundLayer or the phantomLayer you are grounded.
         isGrounded = Physics.SphereCast(transform.position - anchorModifier, radius, Vector3.down, out _, maxDistance, groundLayer | phantomLayer);
-
-        Debug.Log(isGrounded);
     }
     
     void Move()

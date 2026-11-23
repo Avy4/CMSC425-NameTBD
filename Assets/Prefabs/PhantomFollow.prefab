@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1160594591762416475}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -155,3 +155,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RecordPhantom
   phantom: {fileID: 3498405774258608991, guid: c569815b8f56b774a801968570b83d25, type: 3}
   lineRenderer: {fileID: 194891366056384606}
+  playerDeath: {fileID: 0}
+  maxPhantoms: 1
