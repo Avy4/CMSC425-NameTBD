@@ -25,9 +25,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] LayerMask groundLayer;
     [SerializeField] LayerMask phantomLayer;
     private float radius = .4f;
+
+    // For the Miku Playermodel apparently maxDistance = 1f, anchorModifier = Vector3(0, 0, 0) works
     private float maxDistance = .2f;
     private Vector3 anchorModifier = new Vector3(0, .5f, 0); 
-    private bool isGrounded = true; 
+    public bool isGrounded {get; private set;}= true;
     #endregion
 
     void Start()
