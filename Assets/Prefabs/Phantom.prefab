@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 429559124609013622}
   - component: {fileID: 1684772259743847145}
   - component: {fileID: 7332780456677035891}
-  - component: {fileID: 5671531305423497019}
   m_Layer: 7
   m_Name: Phantom
   m_TagString: Phantom
@@ -29,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 3498405774258608991}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.875, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -75,7 +74,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 29a9c7b0add64a34182f97f1cf81fe0c, type: 2}
+  - {fileID: 2100000, guid: a152538b2539b2f46aa0627501356f92, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -106,8 +105,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 0.13287354
+        time: 0.025375366
+        value: 0.017837524
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -147,8 +146,8 @@ LineRenderer:
       m_ColorSpace: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-    numCornerVertices: 0
-    numCapVertices: 0
+    numCornerVertices: 10
+    numCapVertices: 10
     alignment: 0
     textureMode: 1
     textureScale: {x: 1, y: 1}
@@ -184,29 +183,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!136 &5671531305423497019
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3498405774258608991}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.85, z: 0}
 --- !u!1 &8928828614516140002
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,8 +194,8 @@ GameObject:
   - component: {fileID: 4404958079520511249}
   - component: {fileID: 6558061100394719654}
   - component: {fileID: 1275981500441680720}
-  - component: {fileID: 4993339472157245021}
   - component: {fileID: 1174054789626790137}
+  - component: {fileID: 8441449740186079409}
   m_Layer: 7
   m_Name: Collider
   m_TagString: Phantom
@@ -299,8 +275,20 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4993339472157245021
-BoxCollider:
+--- !u!114 &1174054789626790137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8928828614516140002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c2d56533939384a8fcc695f03caf60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PhantomDeath
+--- !u!136 &8441449740186079409
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -317,18 +305,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.1, y: 1, z: 1.1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1174054789626790137
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8928828614516140002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09c2d56533939384a8fcc695f03caf60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PhantomDeath
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2.05
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.025, z: 0}

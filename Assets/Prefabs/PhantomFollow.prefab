@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2039159700226773481}
-  - component: {fileID: 194891366056384606}
   - component: {fileID: 6706937443970309102}
+  - component: {fileID: 194891366056384606}
   m_Layer: 0
   m_Name: PhantomFollow
   m_TagString: Untagged
@@ -33,6 +33,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6706937443970309102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160594591762416475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43d9de6acfd1c7542a9c1292124060df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RecordPhantom
+  phantom: {fileID: 3498405774258608991, guid: c569815b8f56b774a801968570b83d25, type: 3}
+  lineRenderer: {fileID: 194891366056384606}
+  playerDeath: {fileID: 0}
+  maxPhantoms: 1
 --- !u!120 &194891366056384606
 LineRenderer:
   serializedVersion: 3
@@ -59,7 +75,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5ab181ced3029ee49915d4d351d44c94, type: 2}
+  - {fileID: 2100000, guid: d23c8743524828748b0e7f656dcd3ea0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -141,19 +157,3 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
---- !u!114 &6706937443970309102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1160594591762416475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43d9de6acfd1c7542a9c1292124060df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RecordPhantom
-  phantom: {fileID: 3498405774258608991, guid: c569815b8f56b774a801968570b83d25, type: 3}
-  lineRenderer: {fileID: 194891366056384606}
-  playerDeath: {fileID: 0}
-  maxPhantoms: 1

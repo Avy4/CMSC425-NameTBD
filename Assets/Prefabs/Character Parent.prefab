@@ -641,7 +641,7 @@ MonoBehaviour:
   orientation: {fileID: 9130826918885544142}
   rb: {fileID: 1034194929764112372}
   moveSpeed: 7
-  jumpForce: 6
+  jumpForce: 7
   initialPosition: {x: 0, y: 0, z: 0}
   groundLayer:
     serializedVersion: 2
@@ -780,6 +780,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6906010182321281081}
     m_Modifications:
+    - target: {fileID: 194891366056384606, guid: 1151acd758b4d5746898e6e123c697f9, type: 3}
+      propertyPath: m_Parameters.shadowBias
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 194891366056384606, guid: 1151acd758b4d5746898e6e123c697f9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 7b274cb849a5e8b4e8a26e6c26bc0dbe, type: 2}
+    - target: {fileID: 194891366056384606, guid: 1151acd758b4d5746898e6e123c697f9, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0.086429596
+      objectReference: {fileID: 0}
+    - target: {fileID: 194891366056384606, guid: 1151acd758b4d5746898e6e123c697f9, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.031372868
+      objectReference: {fileID: 0}
     - target: {fileID: 1160594591762416475, guid: 1151acd758b4d5746898e6e123c697f9, type: 3}
       propertyPath: m_Name
       value: PhantomFollow

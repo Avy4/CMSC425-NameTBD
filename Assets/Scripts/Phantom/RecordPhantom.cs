@@ -12,12 +12,14 @@ public class RecordPhantom : MonoBehaviour
     [SerializeField] int maxPhantoms = 1;
 
     #region Capture Variables
+    [SerializeField] float minimumCaptureTime = 3f;
     private PhantomManager phantomManager;
-    private const float captureInterval = 0.05f;
+    // ~Every 3 fixed update cycles
+    private const float captureInterval = 0.06f;
     private float currentCaptureInterval = 0;
     private bool shouldCapture = true;
     // Keeps the phantom body from going inside the ground
-    private const float yPosAgument = .2f;
+    private const float yPosAugment = .2f;
     #endregion
 
     #region Actions
@@ -26,49 +28,60 @@ public class RecordPhantom : MonoBehaviour
     #endregion
 
     void Start()
-    {   
+    {
         InitLine();
 
         // Setup Actions
         actionMap = InputSystem.actions.FindActionMap("Player");
-        stopRecordingAction = actionMap.FindAction("StopRecording");     
+        stopRecordingAction = actionMap.FindAction("StopRecording");
 
         // Create Phantom Manager
         phantomManager = new PhantomManager(maxPhantoms);
 
         // This is adding a callback method
         stopRecordingAction.performed += CreatePhantomCallback;
-        
     }
 
-    void Update()
+    void OnDisable()
     {
-        currentCaptureInterval -= Time.deltaTime;
+        // Unsubscribes callback when GameObject is destroyed
+        stopRecordingAction.performed -= CreatePhantomCallback;
+    }
 
-        // Checks if captureInterval has elapsed and captures (if it is allowed to)
-        if (currentCaptureInterval <= 0 && shouldCapture)
+    void FixedUpdate()
+    {
+        if (shouldCapture)
         {
-            currentCaptureInterval = captureInterval;
-            SetLineRenderPosition();
+            currentCaptureInterval -= Time.fixedDeltaTime;
+
+            // Checks if captureInterval has elapsed and captures (if it is allowed to)
+            if (currentCaptureInterval <= 0)
+            {
+                currentCaptureInterval = captureInterval;
+                SetLineRenderPosition();
+            }
         }
     }
 
     // Init vars, could put in start but this is cleaner
     void InitLine()
-    {   
+    {
         currentCaptureInterval = captureInterval;
         SetLineRenderPosition();
     }
     void CreatePhantomCallback(InputAction.CallbackContext context)
-    {   
+    {
         // Resetting with Q and Dying have the same functionality
         // Less reuse of code, and removes uneeded connections
-        playerDeath.Die();
+        if (lineRenderer.positionCount > (minimumCaptureTime / captureInterval))
+        {
+            playerDeath.Die();
+        }
     }
     public void CreatePhantom()
     {
         shouldCapture = false;
-        
+
         // Capture an extra position just in case
         if (currentCaptureInterval <= captureInterval / 2)
         {
@@ -88,13 +101,14 @@ public class RecordPhantom : MonoBehaviour
 
         phantomManager.AddPhantom(newPhantom);
         phantomManager.ResetPhantoms();
+
     }
 
     // Creates a new captured position in the LineRenderer
     void SetLineRenderPosition()
     {
         lineRenderer.positionCount++;
-        lineRenderer.SetPosition(lineRenderer.positionCount - 1, this.transform.position + new Vector3(0, yPosAgument, 0));
+        lineRenderer.SetPosition(lineRenderer.positionCount - 1, this.transform.position + new Vector3(0, yPosAugment, 0));
     }
 
     // Resets all the points in the line renderer
@@ -103,5 +117,8 @@ public class RecordPhantom : MonoBehaviour
         lineRenderer.positionCount = 0;
         SetLineRenderPosition();
         shouldCapture = true;
+
+        // Reset the captureInterval so we don't get a quick capture in the next iteration
+        currentCaptureInterval = captureInterval;
     }
 }
