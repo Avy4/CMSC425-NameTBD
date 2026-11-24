@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 6f;
     #endregion
     
+    [SerializeField] Vector3 initialPosition;
+
     #region Actions
     private InputActionMap actionMap;
     private InputAction moveAction;
@@ -22,9 +24,9 @@ public class PlayerMovement : MonoBehaviour
     #region GroundCheck
     [SerializeField] LayerMask groundLayer;
     private float radius = .4f;
-    private float maxDistance = .2f;
-    private Vector3 anchorModifier = new Vector3(0, .5f, 0); 
-    private bool isGrounded = true;
+    private float maxDistance = 1f;
+    [SerializeField] Vector3 anchorModifier = new Vector3(0, 0f, 0); 
+    private bool isGrounded = true; 
     #endregion
 
     void Start()
@@ -58,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
         // Raycasts a Sphere down from position - anchorModifier. If it hits the groundLayer you are grounded.
         isGrounded = Physics.SphereCast(transform.position - anchorModifier, radius, Vector3.down, out _, maxDistance, groundLayer.value);
     }
+    public bool IsGrounded => isGrounded;
     
     void Move()
     {   
@@ -93,7 +96,6 @@ public class PlayerMovement : MonoBehaviour
 
     void ReadJumpInput(InputAction.CallbackContext context)
     {
-        Debug.Log("tried to jump");
         triedToJump = true;
     }
 
@@ -103,4 +105,13 @@ public class PlayerMovement : MonoBehaviour
 
     }
     #endregion
+
+    public void ResetPlayer()
+    {
+        movementInput = Vector2.zero;
+        rb.linearVelocity = Vector3.zero;
+        isGrounded = true;
+
+        rb.transform.position = initialPosition;
+    }
 }
