@@ -10,14 +10,14 @@ public class PlayerDeath : Death
     public override void Die()
     {   
         recordPhantom.CreatePhantom();
-        Debug.Log("Create Phantom (Die)");
+        // Debug.Log("Create Phantom (Die)");
         playerMovement.ResetPlayer();
-        Debug.Log("Reset Player (Die)");
+        // Debug.Log("Reset Player (Die)");
 
         // Fresh Line Renderer
         // We want to only reset the line renderer (and start reading position again after resetting pos)
         recordPhantom.ResetLineRenderer();
-        Debug.Log("Reset LineRenderer (Die)");
+        // Debug.Log("Reset LineRenderer (Die)");
 
         PushableBoxes.AlertResetBlock();
     }

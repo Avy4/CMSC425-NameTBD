@@ -112,13 +112,19 @@ public class PlayerMovement : MonoBehaviour
 
     public void ResetPlayer()
     {
-        Debug.Log("Player Resetted (Player Movmenet)");
+        // Debug.Log("Player Resetted (Player Movmenet)");
+        
         movementInput = Vector2.zero;
         rb.linearVelocity = Vector3.zero;
         isGrounded = true;
 
         // Position Reset
+        // This resets the position with the rb (which follows physics). 
+        // Character doesn't randomly tp back now
         rb.position = initialPosition;
+        // This resets the position with transform which the linerenderer uses so an extra point isn't captured
+        transform.position = initialPosition;
+
     }
 }
 
