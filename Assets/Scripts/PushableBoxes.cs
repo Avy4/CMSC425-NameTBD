@@ -4,6 +4,7 @@ using UnityEngine;
 public class PushableBoxes : MonoBehaviour
 {
     // Don't want to keep a running list of every PushableBox so we just use an action to reset them all
+    // Could actually change the phantom reset to this as well but oh well.
     public static event Action OnReset;
     [SerializeField] Rigidbody rb;
     private Vector3 startPosition;
@@ -14,7 +15,7 @@ public class PushableBoxes : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
         OnReset += ResetBlock; 
     }
-    
+
     void OnDisable()
     {
         OnReset -= ResetBlock;

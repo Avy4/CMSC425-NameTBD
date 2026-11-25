@@ -6,8 +6,6 @@ public class DeadlyObject : MonoBehaviour
     {
         GameObject otherGameObject = other.gameObject;
 
-        Debug.Log(otherGameObject);
-
         // Checks tag to make sure a Player or Phantom has entered
         if (other.tag == "Player" || other.tag == "Phantom")
         {   

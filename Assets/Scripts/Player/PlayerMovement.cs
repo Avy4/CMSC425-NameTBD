@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 6f;
     #endregion
 
-    [SerializeField] Vector3 initialPosition;
+    private Vector3 initialPosition;
 
     #region Actions
     private InputActionMap actionMap;
@@ -48,7 +48,9 @@ public class PlayerMovement : MonoBehaviour
         moveAction.canceled += ResetMovementInput;
 
         jumpAction.performed += ReadJumpInput;
-        jumpAction.canceled += ResetJumpInput;       
+        jumpAction.canceled += ResetJumpInput;
+
+        initialPosition = transform.position;
     }
 
     void FixedUpdate()
@@ -110,12 +112,13 @@ public class PlayerMovement : MonoBehaviour
 
     public void ResetPlayer()
     {
+        Debug.Log("Player Resetted (Player Movmenet)");
         movementInput = Vector2.zero;
         rb.linearVelocity = Vector3.zero;
         isGrounded = true;
 
         // Position Reset
-        rb.transform.position = initialPosition;
+        rb.position = initialPosition;
     }
 }
 
