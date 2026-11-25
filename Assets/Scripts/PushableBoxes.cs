@@ -1,30 +1,36 @@
+using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PushableBoxes : MonoBehaviour
 {
-    private InputActionMap actionMap;
-    private InputAction stopRecordingAction;
+    // Don't want to keep a running list of every PushableBox so we just use an action to reset them all
+    public static event Action OnReset;
     [SerializeField] Rigidbody rb;
-    [SerializeField] Vector3 startPosition;
+    private Vector3 startPosition;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        actionMap = InputSystem.actions.FindActionMap("Player");
-        stopRecordingAction = actionMap.FindAction("StopRecording");   
         startPosition = transform.position;
         rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
+        OnReset += ResetBlock; 
+    }
+    
+    void OnDisable()
+    {
+        OnReset -= ResetBlock;
     }
 
-    // Update is called once per frame
-    void Update()
+    // Static function that resets all blocks
+    public static void AlertResetBlock()
     {
-        // TODO: should probably add something that makes it also reset upon the player dying, not just when the player manually resets.
-        if (stopRecordingAction.WasPressedThisFrame())
+        if (OnReset != null)
         {
-            rb.transform.position = startPosition;
-            rb.linearVelocity = Vector3.zero;
+            OnReset.Invoke();
         }
+    }
+
+    void ResetBlock()
+    {
+        rb.position = startPosition;
     }
 }
