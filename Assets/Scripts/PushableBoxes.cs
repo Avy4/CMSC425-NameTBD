@@ -12,7 +12,7 @@ public class PushableBoxes : MonoBehaviour
     void Start()
     {
         startPosition = transform.position;
-        rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
         OnReset += ResetBlock; 
     }
 
